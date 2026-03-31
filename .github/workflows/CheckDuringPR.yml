@@ -1,0 +1,19 @@
+name: Vérification du code (pull request)
+on:
+    pull_request:
+
+jobs:
+    codecheck:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: "Set up Julia"
+              uses: julia-actions/setup-julia@v2
+              with:
+                  version: 1
+            - name: "Instantiate project and add Literate"
+              run: julia -e 'import Pkg; Pkg.activate("."); Pkg.instantiate(); Pkg.add("Literate")'
+              shell: bash
+            - name: "Ensure that the code will run with no error"
+              run: julia --project .assets/check.jl
+              shell: bash

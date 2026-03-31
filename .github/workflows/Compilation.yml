@@ -1,0 +1,106 @@
+name: Compilation du rapport (PDF)
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+permissions:
+    issues: write
+    pull-requests: write
+
+jobs:
+    compilation:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: "Set up Julia"
+              uses: julia-actions/setup-julia@v2
+              with:
+                  version: 1
+            - name: "Instantiate project and add Literate"
+              run: julia -e 'import Pkg; Pkg.activate("."); Pkg.instantiate(); Pkg.add("Literate")'
+              shell: bash
+            - name: "Run the document and generate the .md script"
+              run: julia --project .assets/build.jl
+              shell: bash
+            - name: Upload the MD file
+              uses: actions/upload-artifact@v4
+              with:
+                  name: Markdown
+                  path: travail.md
+            - name: "Install pandoc"
+              uses: pandoc/actions/setup@v1
+            - name: "Run pandoc to generate the typst file "
+              run: pandoc travail.md -o travail.typ --template=.assets/template.typ
+            - name: "Run pandoc to generate the html file"
+              run: pandoc travail.md -o docs/index.html --template=.assets/template.html --citeproc -M reference-section-title=Bibliographie --bibliography=references.bib --csl=https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/american-physics-society.csl
+            - name: "Get the Libertinus fonts"
+              run: |
+                  wget https://github.com/alerque/libertinus/releases/download/v7.051/Libertinus-7.051.zip
+                  unzip Libertinus-7.051.zip
+                  mkdir -p ~/.fonts/
+                  mv Libertinus-7.051/static/OTF/*.otf ~/.fonts/
+                  fc-cache -fv
+            - name: "Get the JuliaMono fonts"
+              run: |
+                  wget https://github.com/cormullion/juliamono/releases/download/v0.062/JuliaMono-ttf.zip
+                  unzip JuliaMono-ttf.zip
+                  mv JuliaMono*.ttf ~/.fonts/
+                  fc-cache -fv
+            - name: "Download Typst"
+              run: |
+                  wget https://github.com/typst/typst/releases/download/v0.14.1/typst-x86_64-unknown-linux-musl.tar.xz
+                  tar -xvf typst-x86_64-unknown-linux-musl.tar.xz
+            - name: "Run typst to generate the PDF file"
+              run: ./typst-x86_64-unknown-linux-musl/typst compile travail.typ
+            - name: Upload the typst file
+              uses: actions/upload-artifact@v4
+              with:
+                  name: Typst
+                  path: travail.typ
+            - name: "Move the figures to the docs folder"
+              run: cp travail-*.png docs
+              shell: bash
+            - name: "Moves the PDF to the docs/ folder"
+              run: mv travail.pdf docs/travail.pdf
+            - name: Upload the PDF
+              id: pdf-upload
+              uses: actions/upload-artifact@v4
+              with:
+                  name: Travail
+                  path: docs/travail.pdf
+            - name: "Comment on PR with the pdf (if success)"
+              if: ${{ github.event_name == 'pull_request' }}
+              uses: mshick/add-pr-comment@v3
+              with:
+                message-id: REPORT_ON_COMPILATION
+                message: |
+                    🤗 **Le travail a été compilé**
+                    
+                    Liste des changements: ${{ github.sha }}
+
+                    Lien vers le PDF
+                attach-path: docs/travail.pdf
+                attach-name: "travail"
+                attach-text: '📎 [Travail (archive zip)](%ARTIFACT_URL%)'    
+            - name: Prepare the web pages
+              id: deployment
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: docs/
+    publication:
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push'
+        needs: compilation
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy to GitHub pages
+              if: ${{ github.event_name != 'pull_request' }}
+              id: deployment
+              uses: actions/deploy-pages@v4

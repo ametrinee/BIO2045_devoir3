@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html $if(lang)$ lang="$lang$" $endif$>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="generator" content="pandoc" />
+    $for(author-meta)$
+    <meta name="author" content="$author-meta$" />
+    $endfor$
+    $if(date-meta)$
+    <meta name="date" content="$date-meta$" />
+    $endif$
+    <title>$if(title)$$title$$endif$</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" integrity="sha512-XcIsjKMcuVe0Ucj/xgIXQnytNwBttJbNjltBV18IOnru2lDPe9KRRyvCXw6Y5H415vbBLRm8+q6fmLUU7DfO6Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .documents {
+            background-color: #fcfcfc;
+            border: 1px solid #a0a0a0;
+            border-radius: 3px;
+            padding: 1em;
+            max-width: 500px;
+            display: block;
+            margin: 2em auto;
+            margin-bottom: 5em;
+        }
+        .auteur {
+            padding-bottom: 1em;
+        }
+        .auteurs {
+            padding-bottom: 2em;
+        }
+        .csl-left-margin {
+            font-weight: bold;
+            display: inline-block;
+            width: 1.8em;
+        }
+        .csl-right-inline {
+            display: inline;
+        }
+        .csl-entry {
+            text-indent: 1.8em hanging;
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+
+<body>
+
+    $if(title)$
+    <h1>$title$</h1>
+    $endif$
+
+    <section class="auteurs">
+        $for(auteurs)$
+        <div class="auteur">$auteurs.prenom$ $auteurs.nom$ &nbsp;&nbsp;&nbsp; <i class="ri-github-line"></i> <a href="https://github.com/$auteurs.github$/" target="_blank"/>@$auteurs.github$</a></div>
+        $endfor$
+    </section>
+
+    <section class="documents">
+        <a href="travail.pdf" target="_blank"><i class="ri-file-pdf-2-line"></i> Version PDF</a><br />
+        <a href="https://github.com/$repository$" target="_blank"><i class="ri-github-fill"></i> Dépôt GitHub</a>
+    </section>
+
+    <article>
+        $body$
+    </article>
+
+</body>
+
+</html>
