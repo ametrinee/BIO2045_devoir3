@@ -209,6 +209,7 @@ stairs!(ax, S, label="Sains", color=:black)
 stairs!(ax, I, label="Infectieux", color=:red)
 stairs!(ax, D, label="Décédés", color=:grey)
 axislegend(ax)
+save("travail-simulation.png", f)
 f
 
 # ## Réplications et analyse de la variabilité
