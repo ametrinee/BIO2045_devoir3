@@ -211,6 +211,8 @@ stairs!(ax, D, label="Décédés", color=:grey)
 axislegend(ax)
 f
 
+save("travail-simulation.png", f)
+
 # ## Réplications et analyse de la variabilité
 
 # 1. Configuration du nombre de réplications
