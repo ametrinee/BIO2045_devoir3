@@ -14,14 +14,22 @@
 
 # # Introduction
 
-# La gestion des épidémies représente l'un des défis majeurs de la santé publique et de l'épidémiologie spatiale.
+# Les campagnes de vaccination à grande échelle ont permis de réduire la mortalité et d’atteindre, pour de nombreuses maladies infectieuses, 
+# une immunité collective, c’est-à-dire la résistance d'une population à un agent contagieux lorsqu'une très grande proportion des individus 
+# est immunisée contre celui-ci. En revanche, ces campagnes sont coûteuses en raison du prix d’une dose de vaccin et de l’administration d’un 
+# test antigénique rapide (RAT) pour détecter les individus infectieux. Dans ce contexte, il apparaît pertinent de pouvoir prédire l’efficacité 
+# d’une stratégie de vaccination, c’est-à-dire la réduction de la mortalité comparée à l’absence d’intervention, en fonction de son coût total.
+
 # Le problème biologique central de cette étude est de contrôler la propagation d'une maladie infectieuse émergente
-# au sein d'une population naïve (3750 individus), alors que le pathogène présente une dynamique de transmission
+# au sein d'une population naïve, alors que le pathogène présente une dynamique de transmission
 # silencieuse et une létalité absolue. L'enjeu est de concevoir une stratégie d'intervention épidémiologique capable
 # de freiner la contagion et de minimiser la mortalité, tout en composant avec des informations incomplètes et des
 # ressources matérielles et financières strictement limitées.
 
-# Pour simuler ce défi, notre modèle intègre plusieurs contraintes biologiques et logistiques qui reflètent la réalité
+# Les modèles à base d’agent sont couramment utilisés dans le domaine de la prévention des épidémies car ils permettent de simuler chaque individu 
+# séparément et donc de mieux intégrer les interactions sociales et les décisions individuelles (Zhang et al., 2025).
+
+# Dans ce travail, nous proposons un modèle à base d'agents qui intègre plusieurs contraintes biologiques et logistiques qui reflètent la réalité
 # des crises sanitaires. La difficulté majeure réside dans la nature de la maladie : elle est strictement asymptomatique,
 # se transmet par contact (taux de 0.4), et s'avère 100 % fatale à l'issue de 21 jours. Biologiquement, cela modélise un
 # pathogène ayant une longue période de contagiosité silencieuse avant l'apparition de l'issue fatale. Comme l'ont
