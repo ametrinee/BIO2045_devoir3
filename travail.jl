@@ -27,7 +27,7 @@
 # ressources matérielles et financières strictement limitées.
 
 # Les modèles à base d’agent sont couramment utilisés dans le domaine de la prévention des épidémies car ils permettent de simuler chaque individu 
-# séparément et donc de mieux intégrer les interactions sociales et les décisions individuelles (Zhang et al., 2025).
+# séparément et donc de mieux intégrer les interactions sociales et les décisions individuelles @zhang2025agent.
 
 # Dans ce travail, nous proposons un modèle à base d'agents qui intègre plusieurs contraintes biologiques et logistiques qui reflètent la réalité
 # des crises sanitaires. La difficulté majeure réside dans la nature de la maladie : elle est strictement asymptomatique,
