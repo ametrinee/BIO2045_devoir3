@@ -27,8 +27,8 @@ Cette section présente les données obtenues après 10 réplications stochastiq
 
 | Indicateur | Valeur moyenne (± Écart-type) |
 | :--- | :--- |
-| **Survivants (S)** | **2116** (± **952**) |
-| **Décès (D)** | **1634** (± **952**) |
+| **Survivants (S)** | **2 116** (± **952**) |
+| **Décès (D)** | **1 634** (± **952**) |
 | **Budget restant** | **1 635,0 $** |
 | **Statut final** | **Extinction complète (I = 0)** |
 
