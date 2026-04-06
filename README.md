@@ -23,6 +23,17 @@ L'implémentation du modèle repose sur le suivi individuel de chaque agent, int
 
 ## Résultat
 
+Cette section présente les données obtenues après 10 réplications stochastiques de la simulation (Population initiale N=3750, Budget = 21 000 $).
+
+| Indicateur | Valeur moyenne (± Écart-type) |
+| :--- | :--- |
+| **Survivants (S)** | **2116** (± **952**) |
+| **Décès (D)** | **1634** (± **952**) |
+| **Budget restant** | **1 635,0 $** |
+| **Statut final** | **Extinction complète (I = 0)** |
+
+En moyenne, 2116 individus ont survécu à l'épidémie, ce qui représente un taux de survie de 56,4 %. L'écart-type de 952 indique une variabilité significative des résultats entre les différentes réplications.Sur le plan financier, la campagne de vaccination en anneau a consommé 19 365,0 $, laissant un solde budgétaire final de 1 635,0 $. Dans l'ensemble des simulations, la chaîne de transmission s'est interrompue avant l'épuisement total de la population saine.
+
 ## Conclusion
 
 ## Limites
