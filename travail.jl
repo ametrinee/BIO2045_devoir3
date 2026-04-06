@@ -246,6 +246,7 @@ std_S = std(results_S)
 mean_D = mean(results_D)
 
 println("Moyenne des survivants : $mean_S (Écart-type : $std_S)")
+println("Budget restant : $final_budget \$")
 
 # Pour évaluer la robustesse de cette stratégie face à la stochasticité du modèle, la simulation
 # a été répliquée 10 fois. Les résultats montrent qu'en moyenne, 2116 individus survivent à
@@ -254,3 +255,18 @@ println("Moyenne des survivants : $mean_S (Écart-type : $std_S)")
 # bien qu'une certaine variabilité subsiste selon la distribution spatiale initiale des agents.
 
 # # Discussion
+
+# Note 1 pour la discussion (L'efficacité) :
+# L'approche par vaccination en anneau est économiquement viable.
+# Contrairement à une vaccination de masse qui aurait coûté environ 78 750 $ ($3750 \times 21$),
+# notre stratégie a éteint l'épidémie avec seulement 19 365 $.
+
+# Note 2 pour la discussion (Variabilité) :
+# L'écart-type élevé (952) s'explique par la stochasticité spatiale.
+# La position initiale du cas index influence radicalement la propagation avant que les
+# premières mesures sanitaires (après le premier décès) ne soient effectives.
+
+# Note 3 pour la discussion (Limite) :
+# L'impossibilité d'intervenir avant le premier décès crée une fenêtre de transmission invisible.
+# Cette latence administrative est un facteur critique qui explique pourquoi une partie de la
+# population succombe avant l'établissement des barrières immunitaires.
