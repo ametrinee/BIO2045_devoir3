@@ -264,9 +264,9 @@ f
 
 # ## 1. Initialisation des conteneurs de données
 n_reps = 100
-results_S = Int64[]         # Population saine finale
-results_D = Int64[]         # Nombre de décès final
-results_budget = Float64[]  # Budget restant
+results_S = Int64[];         # Population saine finale
+results_D = Int64[];         # Nombre de décès final
+results_budget = Float64[];  # Budget restant
 
 # ## 2. Exécution de la boucle de simulation
 
