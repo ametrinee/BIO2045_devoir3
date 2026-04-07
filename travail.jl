@@ -2,14 +2,14 @@
 # title: "Stratégie de vaccination spatiale : simulation d'une intervention épidémique sous contraintes"
 # repository: ametrinee/BIO2045_devoir3
 # auteurs:
-#    - nom: Auteur
-#      prenom: Premier
-#      matricule: XXXXXXXX
-#      github: premierAuteur
-#    - nom: Auteur
-#      prenom: Deuxième
-#      matricule: XXXXXXXX
-#      github: DeuxiAut
+#    - nom: Hong
+#      prenom: Sumi
+#      matricule: 20233311
+#      github: ametrinee
+#    - nom: Nivelle
+#      prenom: Anna
+#      matricule: 20349280
+#      github: anna2808-prog
 # ---
 
 # # Introduction
@@ -149,7 +149,8 @@ function simulation(L::Landscape, n_initial::Int64, budget_total::Float64)
         ## Phase 2 : Intervention sanitaire (Dépistage RAT et vaccination)
         if length(pop) < n_initial && current_budget > 0
             for agent in Random.shuffle(pop)
-                if current_budget >= 4.0 && !agent.tested     ## 4.0 $ = Coût du test RAT
+                ## 4.0 $ = Coût du test RAT
+                if current_budget >= 4.0 && !agent.tested
                     current_budget -= 4.0
                     agent.tested = true
      
@@ -159,14 +160,14 @@ function simulation(L::Landscape, n_initial::Int64, budget_total::Float64)
                     ## Si positif, vaccination des contacts dans la même cellule
                     if pos
                         for contact in incell(agent, pop)
-                            if current_budget >= 17.0 && !contact.vaccinated     ## 17.0 $ = Coût du vaccin
+                            ## 17.0 $ = Coût du vaccin
+                            if current_budget >= 17.0 && !contact.vaccinated
                                 current_budget -= 17.0
                                 contact.vaccinated = true
                             end
                         end
                     end
                 end
-                current_budget < 4.0 && break
             end
         end
   
@@ -175,7 +176,8 @@ function simulation(L::Landscape, n_initial::Int64, budget_total::Float64)
             for target in healthy(incell(spreader, pop))
                 ## Vérification de l'immunité (active 2 jours après le vaccin)
                 immune = target.vaccinated && target.days_after_vax >= 2
-                if !immune && rand() <= 0.4      ## 0.4 = Taux de transmission par contact
+                ## 0.4 = Taux de transmission par contact
+                if !immune && rand() <= 0.4
                     target.infectious = true
                     push!(events, InfectionEvent(tick, spreader.id, target.id, target.x, target.y))
                 end
@@ -223,7 +225,7 @@ stairs!(ax_ref, S_ref, label="Sains", color=:midnightblue)
 stairs!(ax_ref, I_ref, label="Infectieux", color=:red)
 stairs!(ax_ref, D_ref, label="Décédés", color=:dimgrey)
 
-# Légende
+## Légende
 axislegend(ax_ref)
 
 save("sans-intervention.png", f_ref)
@@ -247,7 +249,7 @@ stairs!(ax, S, label="Sains", color=:midnightblue)
 stairs!(ax, I, label="Infectieux", color=:red)
 stairs!(ax, D, label="Décédés", color=:dimgrey)
 
-# Légende
+## Légende
 axislegend(ax)
 
 save("avec-intervention.png", f)
@@ -262,9 +264,9 @@ f
 
 # ## 1. Initialisation des conteneurs de données
 n_reps = 100
-results_S = Int64[]         ## Population saine finale
-results_D = Int64[]         ## Nombre de décès final
-results_budget = Float64[]  ## Budget restant
+results_S = Int64[]         # Population saine finale
+results_D = Int64[]         # Nombre de décès final
+results_budget = Float64[]  # Budget restant
 
 # ## 2. Exécution de la boucle de simulation
 
@@ -311,3 +313,35 @@ f_dots
 # de 3 101 $ avec un écart-type de 5 317 $.
 
 # # Discussion
+
+# Cette étude vise à évaluer l’efficacité d’une stratégie de vaccination en anneau sous contrainte budgétaire.
+# Pour ce faire, un modèle à base d’agents a été utilisé pour simuler la dynamique épidémique.
+
+# Les résultats montrent une éradication complète de l’épidémie avant l’extinction de la population. La vaccination
+# en anneau a considérablement réduit la mortalité et permis d’atteindre une immunité locale permettant de rompre
+# les chaînes de transmission. Cependant, le nombre de survivants présente une variabilité importante, avec un
+# écart-type de 805, probablement en raison de la stochasticité du modèle, en particulier la dynamique spatiale
+# aléatoire. Le modèle pourrait être plus réaliste en créant une population hétérogène et des coordonnées spécifiques
+# plus susceptibles d’être fréquentées pour imiter des zones de haute densité telles que les lieux de travail, les
+# écoles ou les magasins, éventuellement avec des règles de distanciation physique. De plus, il pourrait être pertinent
+# de réduire la probabilité d’interaction avec des individus infectés et testés pour prendre en compte les changements
+# de comportement des individus lorsqu’ils sont entourés de malades, ou bien les confinements pouvant être imposés face
+# à certaines épidémies comme celle de la Covid-19 en 2020 @he2020temporal. Par ailleurs, l'impossibilité d'intervenir
+# avant le premier décès crée une fenêtre de transmission invisible. Cette latence administrative est un facteur critique
+# qui explique pourquoi une partie de la population succombe avant l'établissement des barrières immunitaires.
+
+# Le modèle est également simplifié d’un point de vue biologique. Une durée de 21 jours de la maladie a été considérée,
+# bien que celle-ci puisse en réalité varier en fonction de l'âge, la génétique ou encore la charge virale @langford2007predictors.
+# L’hypothèse selon laquelle l’infection est toujours létale pourrait également être reconsidérée selon le micro-organisme
+# étudié. Il est aussi à noter que la protection totale du vaccin après 2 jours est un cas idéal, la réponse vaccinale ne
+# pouvant pas être sûre à 100 % et diminuant avec le temps en raison de la perte d’anticorps @dalmat2021efficacite. Un autre
+# aspect négligé est la période d’incubation, durant laquelle les individus peuvent être infectés mais pas contagieux.
+
+# Concernant le coût de la campagne, la stratégie de vaccination en anneau a consommé en moyenne 17 899 $, soit une économie
+# massive par rapport à une vaccination de masse (3 750 × 21 $ = 78 750 $). En revanche, un écart-type du budget élevé (5 317 $)
+# a été observé, ce qui s'explique par une distribution bimodale. En effet, dans 92 % des cas, le budget est largement sollicité,
+# tandis que dans 8 % des cas, une extinction précoce permet de préserver la quasi-totalité des fonds.
+
+# Malgré ces limites, ce modèle met en évidence la pertinence de la vaccination en anneau lorsque les ressources sont limitées
+# face à des épidémies asymptomatiques @henaorestrepo2017ebola.
+
