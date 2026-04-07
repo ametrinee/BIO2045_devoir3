@@ -338,9 +338,11 @@ f_dots
 # aspect négligé est la période d’incubation, durant laquelle les individus peuvent être infectés mais pas contagieux.
 
 # Concernant le coût de la campagne, la stratégie de vaccination en anneau a consommé en moyenne 17 899 $, soit une économie
-# massive par rapport à une vaccination de masse (3 750 × 21 $ = 78 750 $). En revanche, un écart-type du budget élevé (5 317 $)
-# a été observé, ce qui s'explique par une distribution bimodale. En effet, dans 92 % des cas, le budget est largement sollicité,
-# tandis que dans 8 % des cas, une extinction précoce permet de préserver la quasi-totalité des fonds.
+# massive par rapport à une vaccination de masse (3 750 × 21 $ = 78 750 $). Cet écart-type élevé de 5 317 $ s'explique par la
+# distribution bimodale. Les résultats se divisent en deux trajectoires opposées : dans 8 % des cas, l'épidémie s'éteint par
+# simple stochasticité dès le début, préservant ainsi le budget, tandis que dans les 92 % restants, le virus se propage davantage,
+# forçant une intervention massive qui consomme la quasi-totalité des fonds. Cette absence de scénario moyen explique la forte
+# variabilité des données, tant pour les coûts que pour la mortalité.
 
 # Malgré ces limites, ce modèle met en évidence la pertinence de la vaccination en anneau lorsque les ressources sont limitées
 # face à des épidémies asymptomatiques @henaorestrepo2017ebola.
