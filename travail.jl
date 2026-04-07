@@ -126,7 +126,7 @@ incell(target::Agent, pop::Population) = filter(ag -> (ag.x, ag.y) == (target.x,
 # ## Simulation principale
 
 ## Fonction cœur exécutant la dynamique épidémique et la stratégie d'intervention
-function run_epidemic_simulation(L::Landscape, n_initial::Int64, budget_total::Float64)
+function simulation(L::Landscape, n_initial::Int64, budget_total::Float64)
     pop = [Agent(x=rand(L.xmin:L.xmax), y=rand(L.ymin:L.ymax)) for _ in 1:n_initial]
     rand(pop).infectious = true
     
@@ -212,7 +212,7 @@ using Statistics
 L = Landscape()
 
 ## Exécution de la simulation avec un budget de 0 $
-S_ref, I_ref, D_ref = run_epidemic_simulation(L, 3750, 0.0)
+S_ref, I_ref, D_ref = simulation(L, 3750, 0.0)
 
 ## Création de la figure pour le scénario de référence
 f_ref = Figure();
@@ -236,7 +236,7 @@ f_ref
 L = Landscape()
 
 ## Exécution de la simulation avec le budget alloué (21 000$)
-S, I, D, final_budget = run_epidemic_simulation(L, 3750, 21000.0)
+S, I, D, final_budget = simulation(L, 3750, 21000.0)
 
 ## Génération du graphique de la dynamique épidémique sous intervention
 f = Figure();
@@ -272,7 +272,7 @@ Random.seed!(123456)
 
 for i in 1:n_reps
     ## Exécution répétée pour capturer la variabilité stochastique du modèle
-    S_trace, I_trace, D_trace, final_budget_tmp = run_epidemic_simulation(L, 3750, 21000.0)
+    S_trace, I_trace, D_trace, final_budget_tmp = simulation(L, 3750, 21000.0)
 
     ## Stockage des valeurs finales de la dernière génération dans les conteneurs
     push!(results_S, S_trace[end])
