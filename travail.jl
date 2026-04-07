@@ -149,7 +149,7 @@ function run_epidemic_simulation(L::Landscape, n_initial::Int64, budget_total::F
         ## Phase 2 : Intervention sanitaire (Dépistage RAT et vaccination)
         if length(pop) < n_initial && current_budget > 0
             for agent in Random.shuffle(pop)
-                if current_budget >= 4.0 && !agent.tested
+                if current_budget >= 4.0 && !agent.tested     ## 4.0 $ = Coût du test RAT
                     current_budget -= 4.0
                     agent.tested = true
      
@@ -159,7 +159,7 @@ function run_epidemic_simulation(L::Landscape, n_initial::Int64, budget_total::F
                     ## Si positif, vaccination des contacts dans la même cellule
                     if pos
                         for contact in incell(agent, pop)
-                            if current_budget >= 17.0 && !contact.vaccinated
+                            if current_budget >= 17.0 && !contact.vaccinated     ## 17.0 $ = Coût du vaccin
                                 current_budget -= 17.0
                                 contact.vaccinated = true
                             end
@@ -175,7 +175,7 @@ function run_epidemic_simulation(L::Landscape, n_initial::Int64, budget_total::F
             for target in healthy(incell(spreader, pop))
                 ## Vérification de l'immunité (active 2 jours après le vaccin)
                 immune = target.vaccinated && target.days_after_vax >= 2
-                if !immune && rand() <= 0.4
+                if !immune && rand() <= 0.4      ## 0.4 = Taux de transmission par contact
                     target.infectious = true
                     push!(events, InfectionEvent(tick, spreader.id, target.id, target.x, target.y))
                 end
@@ -201,72 +201,113 @@ end
 
 # # Présentation des résultats
 
-import Random
 Random.seed!(123456)
 using CairoMakie
 using Statistics
 
-# ## Simulation unique et visualisation
+# ## 1. Scénario de référence : Absence d'intervention
+
+# Ce scénario sert de témoin négatif pour observer la dynamique naturelle du pathogène sans contraintes budgétaires ni mesures sanitaires.
+
 L = Landscape()
+
+## Exécution de la simulation avec un budget de 0 $
+S_ref, I_ref, D_ref = run_epidemic_simulation(L, 3750, 0.0)
+
+## Création de la figure pour le scénario de référence
+f_ref = Figure();
+ax_ref = Axis(f_ref[1, 1], xlabel="Génération", ylabel="Population", title="Évolution de l'épidémie sans intervention")
+
+## Tracé des courbes (S, I, D)
+stairs!(ax_ref, S_ref, label="Sains", color=:midnightblue)
+stairs!(ax_ref, I_ref, label="Infectieux", color=:red)
+stairs!(ax_ref, D_ref, label="Décédés", color=:dimgrey)
+
+# Légende
+axislegend(ax_ref)
+
+save("sans-intervention.png", f_ref)
+f_ref
+
+# ## 2. Simulation de la stratégie : Intervention avec vaccination
+
+# Ce scénario évalue l'efficacité de la vaccination en anneau sous une contrainte budgétaire stricte de 21 000 $.
+
+L = Landscape()
+
+## Exécution de la simulation avec le budget alloué (21 000$)
 S, I, D, final_budget = run_epidemic_simulation(L, 3750, 21000.0)
 
-## Génération du graphique de la dynamique épidémique
+## Génération du graphique de la dynamique épidémique sous intervention
 f = Figure();
 ax = Axis(f[1, 1], xlabel="Génération", ylabel="Population", title="Dynamique de l'épidémie avec vaccination")
+
+## Tracé des courbes (S, I, D)
 stairs!(ax, S, label="Sains", color=:midnightblue)
 stairs!(ax, I, label="Infectieux", color=:red)
 stairs!(ax, D, label="Décédés", color=:dimgrey)
+
+# Légende
 axislegend(ax)
-save("travail-simulation.png", f)
+
+save("avec-intervention.png", f)
 f
 
-# La figure ci-dessus illustre la dynamique temporelle de l'épidémie sous notre stratégie
-# d'intervention. On observe que l'épidémie finit par s'éteindre, ramenant le nombre
-# d'infectieux à zéro avant l'extinction totale de la population.
+# La comparaison entre les deux figures montre une nette réduction de la mortalité grâce à l'intervention.
+# En l'absence de mesures, la population saine s'effondre rapidement. Avec notre stratégie, la courbe des
+# survivants se stabilise à un niveau significativement plus élevé, prouvant que la vaccination en anneau
+# parvient à isoler les foyers infectieux malgré un budget limité.
 
-# ## Réplications et analyse de la variabilité
+# # Réplications et analyse de la variabilité
 
-## 1. Configuration du nombre de réplications
-n_reps = 10
-results_S = Int64[]    ## Population saine finale
-results_D = Int64[]    ## Nombre de décès final
+# ## 1. Initialisation des conteneurs de données
+n_reps = 100
+results_S = Int64[]         ## Population saine finale
+results_D = Int64[]         ## Nombre de décès final
+results_budget = Float64[]  ## Budget restant
+
+# ## 2. Exécution de la boucle de simulation
+
+Random.seed!(123456)
 
 for i in 1:n_reps
-    ## Exécution répétée pour capturer la variabilité stochastique
-    S_trace, I_trace, D_trace, final_budget = run_epidemic_simulation(L, 3750, 21000.0)
+    ## Exécution répétée pour capturer la variabilité stochastique du modèle
+    S_trace, I_trace, D_trace, final_budget_tmp = run_epidemic_simulation(L, 3750, 21000.0)
 
-    ## Stockage uniquement des valeurs finales de la dernière génération
+    ## Stockage des valeurs finales de la dernière génération dans les conteneurs
     push!(results_S, S_trace[end])
     push!(results_D, D_trace[end])
+    push!(results_budget, final_budget_tmp)
 end
 
-## 2. Calcul des statistiques globales
-mean_S = mean(results_S)
-std_S = std(results_S)
-mean_D = mean(results_D)
+# ## 3. Calcul des statistiques descriptives
 
-println("Moyenne des survivants : $mean_S (Écart-type : $std_S)")
-println("Budget restant : $final_budget \$")
+mean_S = mean(results_S)             # Estimation de l'espérance du nombre de survivants
+std_S = std(results_S)               # Mesure de la variabilité des survivants
+mean_D = mean(results_D)             # Nombre moyen de décès sur 100 réplications
+std_D = std(results_D)               # Variabilité de la mortalité entre les simulations
+mean_budget = mean(results_budget)   # Budget moyen résiduel après l'intervention
+std_budget = std(results_budget)     # Écart-type du coût financier de la campagne
 
-# Pour évaluer la robustesse de cette stratégie face à la stochasticité du modèle, la simulation
-# a été répliquée 10 fois. Les résultats montrent qu'en moyenne, 2116 individus survivent à
-# l'épidémie (sur une population initiale de 3750), avec un écart-type d'environ 952. Ces données
-# quantitatives démontrent que la vaccination en anneau parvient à briser les chaînes de transmission,
-# bien qu'une certaine variabilité subsiste selon la distribution spatiale initiale des agents.
+# ## 4. Affichage des résultats pour l'analyse de robustesse
+
+println("Moyenne des survivants : $mean_S (± $std_S)")
+println("Moyenne des décès : $mean_D (± $std_D)")
+println("Budget restant moyen : $mean_budget \$ (± $std_budget \$)")
+
+# ## 5. Visualisation simple du budget
+
+f_dots = Figure();
+ax_dots = Axis(f_dots[1, 1], title = "Budget restant (100 réps)", ylabel = "Budget (\$)")
+scatter!(ax_dots, results_budget, markersize = 12, color = (:midnightblue, 0.5))
+save("budget-dots.png", f_dots)
+f_dots
+
+# La Figure ci-dessus illustre la répartition des résultats financiers.
+# On observe une distribution bimodale : dans la grande majorité des cas (92 %),
+# le budget est presque entièrement consommé pour freiner l'épidémie,
+# tandis que dans une minorité de simulations (8 %), il reste proche
+# de 21 000 $. Cette répartition stochastique se traduit par une moyenne
+# de 3 101 $ avec un écart-type de 5 317 $.
 
 # # Discussion
-
-# Note 1 pour la discussion (L'efficacité) :
-# L'approche par vaccination en anneau est économiquement viable.
-# Contrairement à une vaccination de masse qui aurait coûté environ 78 750 $ ($3750 \times 21$),
-# notre stratégie a éteint l'épidémie avec seulement 19 365 $.
-
-# Note 2 pour la discussion (Variabilité) :
-# L'écart-type élevé (952) s'explique par la stochasticité spatiale.
-# La position initiale du cas index influence radicalement la propagation avant que les
-# premières mesures sanitaires (après le premier décès) ne soient effectives.
-
-# Note 3 pour la discussion (Limite) :
-# L'impossibilité d'intervenir avant le premier décès crée une fenêtre de transmission invisible.
-# Cette latence administrative est un facteur critique qui explique pourquoi une partie de la
-# population succombe avant l'établissement des barrières immunitaires.
