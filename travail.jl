@@ -311,3 +311,34 @@ f_dots
 # de 3 101 $ avec un écart-type de 5 317 $.
 
 # # Discussion
+
+# Dans ce travail, nous avons cherché à évaluer l’efficacité d’une stratégie de vaccination en 
+# anneau sous contrainte budgétaire. Pour cela, nous avons utilisé un modèle à base d’agents pour 
+# simuler la dynamique épidémique. 
+
+# Nos résultats montrent une éradication complète de l’épidémie avant l’extinction de la population. 
+# La vaccination en anneau a considérablement réduit la mortalité et permet d’atteindre une immunité 
+# locale permettant de rompre les chaînes de transmission. Cependant, le nombre de survivants a une 
+# variabilité importante, avec un écart-type de 952, probablement en raison de la stochasticité du modèle, 
+# en particulier la dynamique spatiale aléatoire. Le modèle pourrait être plus réaliste en créant une population 
+# hétérogène et des coordonnées spécifiques plus susceptibles d’être fréquentées pour imiter des zones de haute 
+# densité telles que les lieux de travail, les écoles ou les magasins, éventuellement avec des règles de distanciation 
+# physique. De plus, il pourrait être pertinent de réduire la probabilité d’interaction avec des individus infectés et 
+# testés pour prendre en compte les changements de comportement des individus lorsqu’ils sont entourés de malades ou bien 
+# les confinements pouvant être imposés face à certaines épidémies comme celle de la Covid-19 en 2020. Par ailleurs, 
+# l'impossibilité d'intervenir avant le premier décès crée une fenêtre de transmission invisible. Cette latence administrative 
+# est un facteur critique qui explique pourquoi une partie de la population succombe avant l'établissement des barrières immunitaires.
+
+# Le modèle est également simplifié d’un point de vue biologique. Nous avons considéré une durée de 21 jours de la maladie, qui peut 
+# en réalité varier en fonction de l'âge, la génétique ou encore la charge virale. L’hypothèse selon laquelle l’infection est toujours 
+# létale pourrait être également reconsidérée selon le micro-organisme étudié. Nous notons aussi que la protection totale du vaccin après 
+# deux jours est un cas idéal, la réponse vaccinale ne pouvant pas être sûre à 100% et diminuant avec le temps en raison de la perte d’anticorps. 
+# Un autre aspect qui a été négligé est la période d’incubation, durant laquelle les individus peuvent être infectés mais pas contagieux. 
+
+# Concernant le coût de la campagne, notre stratégie de vaccination en anneau a consommé en moyenne 17 899 $, soit une économie massive par 
+# rapport à une vaccination de masse ($3750 x 21$ = 78 750 $). En revanche, nous avons obtenu un écart-type du budget élevé (4 656 $), qui 
+# s'explique par une distribution binationale. En effet, dans 94 % des cas, le budget est largement sollicité, tandis que dans 6 % des cas, 
+# une extinction précoce permet de préserver la quasi-totalité des fonds.
+
+# Malgré ses limites, notre modèle met en évidence la pertinence de la vaccination en anneau lorsque les ressources sont limitées face à des épidémies 
+# asymptomatiques. 
