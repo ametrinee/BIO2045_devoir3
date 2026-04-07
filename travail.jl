@@ -74,12 +74,12 @@ using StatsBase
 Base.@kwdef mutable struct Agent
     x::Int64 = 0
     y::Int64 = 0
-    clock::Int64 = 21                ## La durée de la maladie = 21 jours
+    clock::Int64 = 21                # La durée de la maladie = 21 jours
     infectious::Bool = false
     id::UUIDs.UUID = UUIDs.uuid4()
-    vaccinated::Bool = false         ## Statut vaccinal
-    days_after_vax::Int64 = 0        ## Temps écoulé depuis la vaccination
-    tested::Bool = false             ## Historique de dépistage pour éviter les tests redondants
+    vaccinated::Bool = false         # Statut vaccinal
+    days_after_vax::Int64 = 0        # Temps écoulé depuis la vaccination
+    tested::Bool = false             # Historique de dépistage pour éviter les tests redondants
 end
 
 ## Structure définissant les limites spatiales de la simulation
@@ -284,12 +284,12 @@ end
 
 # ## 3. Calcul des statistiques descriptives
 
-mean_S = mean(results_S)             # Estimation de l'espérance du nombre de survivants
-std_S = std(results_S)               # Mesure de la variabilité des survivants
-mean_D = mean(results_D)             # Nombre moyen de décès sur 100 réplications
-std_D = std(results_D)               # Variabilité de la mortalité entre les simulations
-mean_budget = mean(results_budget)   # Budget moyen résiduel après l'intervention
-std_budget = std(results_budget)     # Écart-type du coût financier de la campagne
+mean_S = mean(results_S);             # Estimation de l'espérance du nombre de survivants
+std_S = std(results_S);               # Mesure de la variabilité des survivants
+mean_D = mean(results_D);             # Nombre moyen de décès sur 100 réplications
+std_D = std(results_D);               # Variabilité de la mortalité entre les simulations
+mean_budget = mean(results_budget);   # Budget moyen résiduel après l'intervention
+std_budget = std(results_budget);     # Écart-type du coût financier de la campagne
 
 # ## 4. Affichage des résultats pour l'analyse de robustesse
 
