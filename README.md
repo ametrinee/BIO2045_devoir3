@@ -32,7 +32,7 @@ Cette section présente les données obtenues après 100 réplications stochasti
 | **Budget restant** | **3 101 $** (± **5 317 $**) |
 | **Statut final** | **Extinction complète (I = 0)** |
 
-En moyenne, 1 692 individus ont survécu à l'épidémie, ce qui représente un taux de survie de 45,1 % (écart-type : 805). Sur le plan financier, la campagne de vaccination en anneau a consommé en moyenne 17 899 $, laissant un solde budgétaire final de 3 101 $(écart-type : 5 317$). Dans l'ensemble des 100 simulations, la chaîne de transmission s'est interrompue avant l'épuisement total de la population saine.
+En moyenne, 1 692 individus ont survécu à l'épidémie, ce qui représente un taux de survie de 45,1 % (écart-type : 805). Sur le plan financier, la campagne de vaccination en anneau a consommé en moyenne 17 899&nbsp;$, laissant un solde budgétaire final de 3 101&nbsp;$ (écart-type : 5 317$). Dans l'ensemble des 100 simulations, la chaîne de transmission s'est interrompue avant l'épuisement total de la population saine.
 
 ## Conclusion
 
