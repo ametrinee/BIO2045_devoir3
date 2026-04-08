@@ -36,4 +36,14 @@ En moyenne, 1 692 individus ont survécu à l'épidémie, ce qui représente un 
 
 ## Conclusion
 
-## Limites
+Ce projet démontre que la vaccination en anneau constitue une stratégie d'intervention viable et hautement efficiente pour contrôler la propagation d'un pathogène mortel sous des contraintes budgétaires strictes. En mobilisant un ciblage spatial précis dès la détection du premier décès, cette approche permet de réduire les coûts de 77,3 % par rapport à une vaccination de masse, tout en assurant un taux de survie moyen de 45,1 % (soit 1 692 individus sauvés) face à une maladie 100 % létale.
+
+L'analyse des 100 réplications souligne toutefois que le succès de cette stratégie est étroitement lié à la stochasticité spatiale. Comme l'illustre la distribution bimodale des résultats, l'efficacité de l'intervention dépend de la rapidité avec laquelle les premières barrières immunitaires parviennent à isoler les foyers infectieux. Ce modèle confirme qu'une gestion optimisée des ressources (tests RAT et doses de vaccins) peut pallier l'absence d'information parfaite sur la prévalence épidémique, à condition que la riposte soit géographiquement localisée.
+
+## Limites du modèle
+
+Malgré la pertinence des résultats obtenus, plusieurs simplifications limitent l'application directe de ce modèle à des contextes réels :
+
+- **Dynamique biologique** : L'absence d'une période d'incubation masque la phase de transmission invisible. De plus, l'hypothèse d'une immunité vaccinale absolue et permanente ne reflète pas la réalité de la réponse immunitaire qui nécessiterait des doses de rappel (booster shots).
+- **Hétérogénéité spatiale et comportementale** : La population est répartie uniformément sur la grille. L'intégration de zones de haute densité (hubs comme les écoles ou bureaux) et de comportements adaptatifs permettrait de mieux capturer les phénomènes de super-propagation.
+- **Contraintes administratives** : L'impossibilité d'intervenir avant le premier décès crée une latence critique. Dans un scénario réel, la variabilité de la durée de la maladie et de la létalité influencerait grandement le timing de la riposte.
