@@ -230,7 +230,8 @@ axislegend(ax_ref)
 
 save("sans-intervention.png", f_ref)
 f_ref
-## **Figure 1. Dynamique épidémique de référence sans intervention sanitaire.**
+
+# **Figure 1. Dynamique épidémique de référence sans intervention sanitaire.**
 
 # ## 2. Simulation de la stratégie : Intervention avec vaccination
 
@@ -255,7 +256,8 @@ axislegend(ax)
 
 save("avec-intervention.png", f)
 f
-## **Figure 2. Impact de la vaccination en anneau sur la stabilisation de la population saine.**
+
+# **Figure 2. Impact de la vaccination en anneau sur la stabilisation de la population saine.**
 
 # La comparaison entre les deux figures montre une nette réduction de la mortalité grâce à l'intervention.
 # En l'absence de mesures, la population saine s'effondre rapidement. Avec notre stratégie, la courbe des
@@ -306,7 +308,8 @@ ax_dots = Axis(f_dots[1, 1], title = "Budget restant (100 réps)", ylabel = "Bud
 scatter!(ax_dots, results_budget, markersize = 12, color = (:midnightblue, 0.5))
 save("budget-dots.png", f_dots)
 f_dots
-## **Figure 3. Analyse de la variabilité stochastique : distribution bimodale du budget résiduel.**
+
+# **Figure 3. Analyse de la variabilité stochastique : distribution bimodale du budget résiduel.**
 
 # La Figure ci-dessus illustre la répartition des résultats financiers.
 # On observe une distribution bimodale : dans la grande majorité des cas (92 %),
